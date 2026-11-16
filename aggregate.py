@@ -9,7 +9,7 @@ def aggregate(width):
     ループは並べ替えたタプルにして、入る位置が違っても同じループとして数える。
     """
     result = Counter()
-    for n in range(10 ** (width - 1), 10 ** width):
+    for n in range(10 ** width):
         _, loop = kaprekar_flip(n, width)
         result[tuple(sorted(loop))] += 1
     return result
@@ -18,11 +18,11 @@ def aggregate(width):
 def zero_breakdown():
     """4桁で0に行き着く数を、0になる理由ごとに数える。"""
     result = Counter()
-    for n in range(1000, 10000):
+    for n in range(10000):
         history, loop = kaprekar_flip(n)
         if loop != [0]:
             continue
-        digits = set(str(n))
+        digits = set(f"{n:04d}")
         if len(digits) == 1:
             result["最初からゾロ目"] += 1
         elif digits <= {"6", "9"}:
@@ -41,7 +41,7 @@ def longest():
         history, loop = kaprekar_flip(n)
         return len(history) - len(loop)
 
-    n = max(range(1000, 10000), key=steps)
+    n = max(range(10000), key=steps)
     return n, steps(n)
 
 
